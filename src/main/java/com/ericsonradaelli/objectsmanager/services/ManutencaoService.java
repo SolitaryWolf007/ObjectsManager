@@ -171,6 +171,20 @@ public class ManutencaoService {
         return false;
     }
     
+    public static boolean updateDate(int id, String field) {
+        try {
+            Statement statement = db.getStatement();
+
+            statement.execute("UPDATE manutencoes SET "+field+" = DATETIME('now','localtime') WHERE id = "+id+";");  
+
+            statement.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
     // DELETE MANUTENCAO =======================================================
     
     public static boolean delete(int id) {

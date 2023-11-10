@@ -56,12 +56,12 @@ public class MenuManutencoes {
     
     private static void CadastrarManutencao() {
         
-    // EXIBIR OBJETOS
+        // EXIBIR OBJETOS
         String listaObjetos = "";
         ArrayList<Objeto> objetos = ObjetoService.getAll();
         for (Objeto objeto : objetos) {
             int id = objeto.getId();
-            if ( !ManutencaoService.inService(id) && EmprestimoService.inAvaliable(id) ){
+            if ( !ManutencaoService.inService(id) && EmprestimoService.isAvaliable(id) ){
                 listaObjetos += ( "#"+id+" | "+objeto.getNome()+" | "+objeto.getDescricao()+"\r\n" );
             }
         }
@@ -88,7 +88,7 @@ public class MenuManutencoes {
         boolean confirm = Entrada.leiaBoolean(confirmText,"Confirmar","Cancelar");
         if(confirm){
 
-            if ( !ManutencaoService.inService(mObjeto) && EmprestimoService.inAvaliable(mObjeto) ){
+            if ( !ManutencaoService.inService(mObjeto) && EmprestimoService.isAvaliable(mObjeto) ){
 
                 int statusCode = ManutencaoService.cadastro(mObjeto, mDescricao);
                 String message = "Erro não especificado.";
@@ -144,7 +144,7 @@ public class MenuManutencoes {
         
         if(targetManut != null){
             
-            String alterText = "=============================[ Object Manager | Objetos ]=============================\n"+
+            String alterText = "===========================[ Object Manager | Manutenções ]===========================\n"+
             "[ Alterações ]"+
             "\n> Dados da Manutenção:"+
             "\n- ID: #"+targetManut.getId()+
@@ -169,54 +169,75 @@ public class MenuManutencoes {
                     case 0:
                         exitLoop = true;
                         break;
-                    case 1: 
-                        String nDesc = Entrada.leiaString("=============================[ Object Manager | Objetos ]=============================\n[ Alterações ]\n> Indique a Descrição do Objeto\n",targetObjeto.getDescricao());
+                    case 1:
+                        String nDesc = Entrada.leiaString("===========================[ Object Manager | Manutenções ]===========================\n[ Alterações ]\n> Indique a Descrição da Ocorrência\n",targetManut.getDescricao());
                         nDesc = nDesc.toUpperCase(); //RS001    
                         if(!nDesc.isBlank()){
-                            String confirmDescText = "=============================[ Object Manager | Objetos ]=============================\n"+
+                            String confirmDescText = "===========================[ Object Manager | Manutenções ]===========================\n"+
                             "[ Alterações ]"+
                             "\n> Confirme os Dados:"+
-                            "\n- ID: #"+objetoId+
+                            "\n- ID: #"+manutId+
                             "\n- Descrição: "+nDesc;
                             
                             boolean confirmDesc = Entrada.leiaBoolean(confirmDescText,"Confirmar","Cancelar");
                             if(confirmDesc){
                                 exitLoop = true;
-                                if ( ObjetoService.update(objetoId, "descricao", nDesc) ){
-                                    Entrada.leiaBoolean("Dado do Objeto atualizado com sucesso!","OK","Fechar");
+                                if ( ManutencaoService.update(manutId, "descricao", nDesc) ){
+                                    Entrada.leiaBoolean("Manutenção atualizada com sucesso!","OK","Fechar");
                                 }else{
-                                    Entrada.leiaBoolean("Não foi possível atualizar os dados do Objeto!","OK","Fechar");
+                                    Entrada.leiaBoolean("Não foi possível atualizar os dados da Manutenção!","OK","Fechar");
                                 }
                             }
                         }else{
                             Entrada.leiaBoolean("O campo não pode estar vazio!","OK","Fechar");
                         }
                         break;
-                    case 2:
-                        boolean nState = Entrada.leiaBoolean("=============================[ Object Manager | Objetos ]=============================\n[ Alterações ]\n> Indique o Estado do Objeto\n","Ativo","Baixado");
                         
-                        String nEstado = "Ativo";
-                        int nEstadoInt = 1;
-                        if (!nState){ nEstado = "Baixado"; nEstadoInt = 0; }
-            
-                        String confirmEstadoText = "=============================[ Object Manager | Objetos ]=============================\n"+
+                    case 2:
+                        String alterEstado = "===========================[ Object Manager | Manutenções ]===========================\n"+
+                        "[ Buscar ]"+
+                        "\n> Indique o Estado Manutenção"+
+                        "\n0) Concluído (Atualiza Data de Saída)"+
+                        "\n1) Em Serviço"+
+                        "\n2) Recebido";
+                        
+                        int nEstado = -1;
+                        while (nEstado < 0 || nEstado > 2){
+                            nEstado = Entrada.leiaInt(alterEstado);
+                        }
+                        
+                        String nEstadoStr = "";
+                        switch(nEstado){
+                            case 0:
+                                nEstadoStr = "Concluído (Data de Saída será atualizada!)";
+                                break;
+                            case 1:
+                                nEstadoStr = "Em Serviço";
+                                break;
+                            case 2:
+                                nEstadoStr = "Recebido";
+                                break;
+                        }
+
+                        String confirmEstadoText = "===========================[ Object Manager | Manutenções ]===========================\n"+
                         "[ Alterações ]"+
                         "\n> Confirme os Dados:"+
-                        "\n- ID: #"+objetoId+
-                        "\n- Estado: "+nEstado;
+                        "\n- ID: #"+manutId+
+                        "\n- Estado: "+nEstadoStr;
 
                         boolean confirmEstado = Entrada.leiaBoolean(confirmEstadoText,"Confirmar","Cancelar");
                         if(confirmEstado){
                             exitLoop = true;
-                            if ( ObjetoService.update(objetoId, "ativo", nEstadoInt) ){
-                                Entrada.leiaBoolean("Dado do Objeto atualizado com sucesso!","OK","Fechar");
+                            if ( ManutencaoService.update(manutId, "status", nEstado) ){
+                                if (nEstado == 0){
+                                    ManutencaoService.updateDate(manutId, "data_saida");
+                                }
+                                Entrada.leiaBoolean("Manutenção atualizada com sucesso!","OK","Fechar");
                             }else{
-                                Entrada.leiaBoolean("Não foi possível atualizar os dados do Objeto!","OK","Fechar");
+                                Entrada.leiaBoolean("Não foi possível atualizar os dados da Manutenção!","OK","Fechar");
                             }
                         }
-
                 }
-
             }
         }
     }

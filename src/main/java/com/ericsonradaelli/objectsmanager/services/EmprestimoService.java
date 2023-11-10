@@ -7,7 +7,7 @@ package com.ericsonradaelli.objectsmanager.services;
  */
 public class EmprestimoService {
 
-    public static boolean inAvaliable(int id) {
+    public static boolean isAvaliable(int id) {
         return true;
     }
     
