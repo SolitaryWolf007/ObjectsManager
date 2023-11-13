@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * @author erics
  */
 public class MenuManutencoes {
-    
+    //Completo - Testado
     public static void show() {
 
         boolean exitMenu = false;
@@ -56,16 +56,15 @@ public class MenuManutencoes {
     
     private static void CadastrarManutencao() {
         
-        // EXIBIR OBJETOS
+        // LER OBJETOS
         String listaObjetos = "";
         ArrayList<Objeto> objetos = ObjetoService.getAll();
-        for (Objeto objeto : objetos) {
-            int id = objeto.getId();
-            if ( !ManutencaoService.inService(id) && EmprestimoService.isAvaliable(id) ){
-                listaObjetos += ( "#"+id+" | "+objeto.getNome()+" | "+objeto.getDescricao()+"\r\n" );
+        for (Objeto listObjeto : objetos) {
+            int id = listObjeto.getId();
+            if ( listObjeto.isAtivo() && !ManutencaoService.inService(id) && EmprestimoService.isAvaliable(id) ){
+                listaObjetos += ( "#"+id+" | "+listObjeto.getNome()+" | "+listObjeto.getDescricao()+"\r\n" );
             }
         }
-        // LER TIPO
         int mObjeto = Entrada.leiaInt("===========================[ Object Manager | Manutenções ]===========================\nCadastro (1/3)\n> Indique o ID do Objeto\n\n0) Cancelar\n===[ OBJETOS DISPONÍVEIS ]===\n"+listaObjetos);
         Objeto objeto = ObjetoService.get(mObjeto);
         while (objeto == null){
@@ -82,13 +81,13 @@ public class MenuManutencoes {
         String confirmText = "===========================[ Object Manager | Manutenções ]===========================\n"+
         "Cadastro (3/3)"+
         "\n> Confirme os Dados:"+
-        "\n- Objeto: "+mObjeto+
+        "\n- Objeto: "+mObjeto+" ("+objeto.getNome()+")"+
         "\n- Descrição: "+mDescricao;
 
         boolean confirm = Entrada.leiaBoolean(confirmText,"Confirmar","Cancelar");
         if(confirm){
 
-            if ( !ManutencaoService.inService(mObjeto) && EmprestimoService.isAvaliable(mObjeto) ){
+            if ( objeto.isAtivo() && !ManutencaoService.inService(mObjeto) && EmprestimoService.isAvaliable(mObjeto) ){
 
                 int statusCode = ManutencaoService.cadastro(mObjeto, mDescricao);
                 String message = "Erro não especificado.";
@@ -121,11 +120,16 @@ public class MenuManutencoes {
         
         if(targetManut != null){
             if(showInfo){
+                
+                String nomeObj = "("+String.valueOf(targetManut.getObjeto())+")";
+                Objeto checkObjeto = ObjetoService.get(targetManut.getObjeto());
+                if(checkObjeto != null){ nomeObj = nomeObj+" "+checkObjeto.getNome(); }
+
                 String infoText = "===========================[ Object Manager | Manutenções ]===========================\n"+
                 "[ Consultar ]"+
                 "\n> Dados da Manutenção:"+
                 "\n- ID: #"+targetManut.getId()+
-                "\n- Objeto: ("+targetManut.getObjeto()+")"+
+                "\n- Objeto: "+nomeObj+
                 "\n- Descrição: "+targetManut.getDescricao()+
                 "\n- Estado: "+targetManut.statusToString()+
                 "\n- Data Entrada: "+targetManut.getDataEntrada()+
@@ -133,7 +137,7 @@ public class MenuManutencoes {
                 Entrada.leiaBoolean(infoText,"OK","Fechar");
             }    
         }else{
-            Entrada.leiaBoolean("Manutenção não encontrado com os parâmetros informados!","OK","Fechar");
+            Entrada.leiaBoolean("Manutenção não encontrada com os parâmetros informados!","OK","Fechar");
         }
         
         return targetManut;
@@ -144,11 +148,15 @@ public class MenuManutencoes {
         
         if(targetManut != null){
             
+            String nomeObj = "("+String.valueOf(targetManut.getObjeto())+")";
+            Objeto checkObjeto = ObjetoService.get(targetManut.getObjeto());
+            if(checkObjeto != null){ nomeObj = nomeObj+" "+checkObjeto.getNome(); }
+            
             String alterText = "===========================[ Object Manager | Manutenções ]===========================\n"+
             "[ Alterações ]"+
             "\n> Dados da Manutenção:"+
             "\n- ID: #"+targetManut.getId()+
-            "\n- Objeto: ("+targetManut.getObjeto()+")"+
+            "\n- Objeto: "+nomeObj+
             "\n- Descrição: "+targetManut.getDescricao()+
             "\n- Estado: "+targetManut.statusToString()+
             "\n- Data Entrada: "+targetManut.getDataEntrada()+
@@ -246,11 +254,16 @@ public class MenuManutencoes {
         Manutencao targetManut = ConsultarManutencao(false); 
         if(targetManut != null){
             int manutId = targetManut.getId();
+            
+            String nomeObj = "("+String.valueOf(targetManut.getObjeto())+")";
+            Objeto checkObjeto = ObjetoService.get(targetManut.getObjeto());
+            if(checkObjeto != null){ nomeObj = nomeObj+" "+checkObjeto.getNome(); }
+            
             String deleteText = "=============================[ Object Manager | Pessoas ]=============================\n"+
             "[ Excluir ]"+
             "\n> Dados da Manutenção:"+
             "\n- ID: #"+manutId+
-            "\n- Objeto: ("+targetManut.getObjeto()+")"+
+            "\n- Objeto: "+nomeObj+
             "\n- Descrição: "+targetManut.getDescricao()+
             "\n- Estado: "+targetManut.statusToString()+
             "\n- Data Entrada: "+targetManut.getDataEntrada()+
@@ -277,8 +290,12 @@ public class MenuManutencoes {
         ArrayList<Manutencao> manutencoes = ManutencaoService.getAll();
         
         for (Manutencao manut : manutencoes) {
+            
+            String nomeObj = "("+String.valueOf(manut.getObjeto())+")";
+            Objeto checkObjeto = ObjetoService.get(manut.getObjeto());
+            if(checkObjeto != null){ nomeObj = nomeObj+" "+checkObjeto.getNome(); }
 
-            listaTipos += ( "#"+manut.getId()+" | ("+manut.getObjeto()+") | "+manut.getDescricao()+" | "+manut.statusToString()+" | "+manut.getDataEntrada()+" | "+manut.getDataSaida()+"\r\n" );
+            listaTipos += ( "#"+manut.getId()+" | "+nomeObj+" | "+manut.getDescricao()+" | "+manut.statusToString()+" | "+manut.getDataEntrada()+" | "+manut.getDataSaida()+"\r\n" );
         }
         
         Entrada.leiaBoolean(listaTipos,"OK","Fechar"); 

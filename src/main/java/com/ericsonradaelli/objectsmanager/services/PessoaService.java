@@ -22,7 +22,7 @@ public class PessoaService {
             try {
                 Statement statement = db.getStatement();
 
-                ResultSet results = statement.executeQuery("SELECT * FROM pessoas WHERE documento = '"+documento+"';");     
+                ResultSet results = statement.executeQuery("SELECT * FROM pessoas WHERE documento = '"+documento+"';");
                 if (!results.next()){
                     results.close();
 

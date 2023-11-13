@@ -24,7 +24,7 @@ public class MenuObjetos {
                 "2) Consultar Objeto\n"+
                 "3) Alterar Objeto\n"+
                 "4) Excluir Objeto\n"+
-                "5) Listar Todos Objetos\n"+
+                "5) Listar Objetos\n"+
                 "\n0) Menu Principal";
 
             int option = Entrada.leiaInt(menuText);
@@ -113,13 +113,17 @@ public class MenuObjetos {
                 String estado = "Ativo";
                 if (!targetObjeto.isAtivo()){ estado = "Baixado"; }
                 
+                String descTipo = "#"+String.valueOf(targetObjeto.getTipo());
+                TipoObjeto checkTipo = TipoObjetoService.get(targetObjeto.getTipo());
+                if(checkTipo != null){ descTipo = descTipo+" - "+checkTipo.getDescricao(); }
+                
                 String infoText = "=============================[ Object Manager | Objetos ]=============================\n"+
                 "[ Consultar ]"+
                 "\n> Dados do Objeto:"+
                 "\n- ID: #"+targetObjeto.getId()+
                 "\n- Nome: "+targetObjeto.getNome()+
                 "\n- Descrição: "+targetObjeto.getDescricao()+
-                "\n- Tipo: #"+targetObjeto.getTipo()+
+                "\n- Tipo: "+descTipo+
                 "\n- Estado: "+estado;
                 Entrada.leiaBoolean(infoText,"OK","Fechar");
             }    
@@ -138,13 +142,17 @@ public class MenuObjetos {
             String estado = "Ativo";
             if (!targetObjeto.isAtivo()){ estado = "Baixado"; }
             
+            String descTipo = "#"+String.valueOf(targetObjeto.getTipo());
+            TipoObjeto checkTipo = TipoObjetoService.get(targetObjeto.getTipo());
+            if(checkTipo != null){ descTipo = descTipo+" - "+checkTipo.getDescricao(); }
+            
             String alterText = "=============================[ Object Manager | Objetos ]=============================\n"+
             "[ Alterações ]"+
-            "\n> Dados do Usuário:"+
+            "\n> Dados do Objeto:"+
             "\n- ID: #"+targetObjeto.getId()+
             "\n- Nome: "+targetObjeto.getNome()+
             "\n- Descrição: "+targetObjeto.getDescricao()+
-            "\n- Tipo: #"+targetObjeto.getTipo()+
+            "\n- Tipo: "+descTipo+
             "\n- Estado: "+estado+
             "\n============================="+
             "\n> Indique o que deseja alterar:"+
@@ -275,15 +283,21 @@ public class MenuObjetos {
         Objeto targetObjeto = ConsultarObjeto(false); 
         if(targetObjeto != null){
             int objetoId = targetObjeto.getId();
+            
             String estado = "Ativo";
             if (!targetObjeto.isAtivo()){ estado = "Baixado"; }
+           
+            String descTipo = "#"+String.valueOf(targetObjeto.getTipo());
+            TipoObjeto checkTipo = TipoObjetoService.get(targetObjeto.getTipo());
+            if(checkTipo != null){ descTipo = descTipo+" - "+checkTipo.getDescricao(); }
+            
             String deleteText = "=============================[ Object Manager | Objetos ]=============================\n"+
             "[ Excluir ]"+
-            "\n> Dados do Usuário:"+
+            "\n> Dados do Objeto:"+
             "\n- ID: #"+objetoId+
             "\n- Nome: "+targetObjeto.getNome()+
             "\n- Descrição: "+targetObjeto.getDescricao()+
-            "\n- Tipo: #"+targetObjeto.getTipo()+
+            "\n- Tipo: "+descTipo+
             "\n- Estado: "+estado+
             "\n============================="+
             "\n> Tem certeza em excluir o Objeto #"+objetoId+" ?\n> TODOS os dados relacionados (manutenções/empréstimos) serão apagados!";
@@ -301,7 +315,7 @@ public class MenuObjetos {
     }
     
     private static void ListarObjetos() {
-        String listaTipos = "=========================[ Object Manager | Tipos de Objeto ]=========================\n"+
+        String listaTipos = "=============================[ Object Manager | Objetos ]=============================\n"+
         "ID | NOME | DESCRIÇÃO | TIPO | ESTADO\n";
         
         ArrayList<Objeto> objetos = ObjetoService.getAll();
@@ -309,7 +323,12 @@ public class MenuObjetos {
         for (Objeto objeto : objetos) {
             String estado = "Ativo";
             if (!objeto.isAtivo()){ estado = "Baixado"; }
-            listaTipos += ( "#"+objeto.getId()+" | "+objeto.getNome()+" | "+objeto.getDescricao()+" | "+objeto.getTipo()+" | "+estado+"\r\n" );
+            
+            String descTipo = "#"+String.valueOf(objeto.getTipo());
+            TipoObjeto checkTipo = TipoObjetoService.get(objeto.getTipo());
+            if(checkTipo != null){ descTipo = checkTipo.getDescricao(); }
+            
+            listaTipos += ( "#"+objeto.getId()+" | "+objeto.getNome()+" | "+objeto.getDescricao()+" | "+descTipo+" | "+estado+"\r\n" );
         }
         
         Entrada.leiaBoolean(listaTipos,"OK","Fechar"); 

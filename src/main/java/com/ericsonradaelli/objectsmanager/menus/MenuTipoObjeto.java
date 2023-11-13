@@ -141,7 +141,7 @@ public class MenuTipoObjeto {
                                 if ( TipoObjetoService.update(tipoId, "descricao", nDesc) ){
                                     Entrada.leiaBoolean("Dado do Tipo de Objeto atualizado com sucesso!","OK","Fechar");
                                 }else{
-                                    Entrada.leiaBoolean("Não foi possível atualizar os dados do Usuário!","OK","Fechar");
+                                    Entrada.leiaBoolean("Não foi possível atualizar os dados do Tipo!","OK","Fechar");
                                 }
                             }
                         }else{
@@ -159,7 +159,7 @@ public class MenuTipoObjeto {
         TipoObjeto targetTipo = ConsultarTipoObjeto(false); 
         if(targetTipo != null){
             int tipoId = targetTipo.getId();
-            String deleteText = "=============================[ Object Manager | Pessoas ]=============================\n"+
+            String deleteText = "=========================[ Object Manager | Tipos de Objeto ]=========================\n"+
             "[ Excluir ]"+
             "\n> Dados do Tipo de Objeto:"+
             "\n- ID: #"+tipoId+

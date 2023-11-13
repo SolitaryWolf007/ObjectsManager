@@ -61,6 +61,7 @@ public class ObjectsManager {
                     MenuEmprestimos.show();
                     break;
                 case 5:
+                    // Ok
                     MenuManutencoes.show();
                     break;
                 case 6:

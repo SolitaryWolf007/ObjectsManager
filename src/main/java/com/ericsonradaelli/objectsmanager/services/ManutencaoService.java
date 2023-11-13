@@ -125,7 +125,7 @@ public class ManutencaoService {
         try {
             Statement statement = db.getStatement();
             
-            ResultSet results = statement.executeQuery("SELECT * FROM manutencoes WHERE id = "+mObjeto+" AND status > 0;");           
+            ResultSet results = statement.executeQuery("SELECT * FROM manutencoes WHERE id_objeto = "+mObjeto+" AND status > 0;");           
 
             if ( results.next() ) {
                 service = true;            
