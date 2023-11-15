@@ -58,6 +58,7 @@ public class ObjectsManager {
                     MenuTipoObjeto.show();
                     break;
                 case 4:
+                    // Ok
                     MenuEmprestimos.show();
                     break;
                 case 5:

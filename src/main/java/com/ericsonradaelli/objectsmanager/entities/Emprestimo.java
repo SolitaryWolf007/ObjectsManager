@@ -31,19 +31,19 @@ public class Emprestimo {
         this.id = id;
     }
 
-    public int getId_objeto() {
+    public int getObjeto() {
         return id_objeto;
     }
 
-    public void setId_objeto(int id_objeto) {
+    public void setObjeto(int id_objeto) {
         this.id_objeto = id_objeto;
     }
 
-    public int getId_pessoa() {
+    public int getPessoa() {
         return id_pessoa;
     }
 
-    public void setId_pessoa(int id_pessoa) {
+    public void setPessoa(int id_pessoa) {
         this.id_pessoa = id_pessoa;
     }
 
@@ -55,19 +55,19 @@ public class Emprestimo {
         this.ativo = ativo;
     }
 
-    public LocalDateTime getData_retirada() {
+    public LocalDateTime getDataRetirada() {
         return data_retirada;
     }
 
-    public void setData_retirada(LocalDateTime data_retirada) {
+    public void setDataRetirada(LocalDateTime data_retirada) {
         this.data_retirada = data_retirada;
     }
 
-    public LocalDateTime getData_devolvido() {
+    public LocalDateTime getDataDevolvido() {
         return data_devolvido;
     }
 
-    public void setData_devolvido(LocalDateTime data_devolvido) {
+    public void setDataDevolvido(LocalDateTime data_devolvido) {
         this.data_devolvido = data_devolvido;
     }
 }

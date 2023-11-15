@@ -1,11 +1,12 @@
 package com.ericsonradaelli.objectsmanager.menus;
 
+import java.util.ArrayList;
+import com.ericsonradaelli.objectsmanager.helpers.Entrada;
 import com.ericsonradaelli.objectsmanager.entities.Objeto;
 import com.ericsonradaelli.objectsmanager.entities.TipoObjeto;
-import com.ericsonradaelli.objectsmanager.helpers.Entrada;
 import com.ericsonradaelli.objectsmanager.services.ObjetoService;
 import com.ericsonradaelli.objectsmanager.services.TipoObjetoService;
-import java.util.ArrayList;
+
 
 /**
  *
@@ -113,9 +114,9 @@ public class MenuObjetos {
                 String estado = "Ativo";
                 if (!targetObjeto.isAtivo()){ estado = "Baixado"; }
                 
-                String descTipo = "#"+String.valueOf(targetObjeto.getTipo());
+                String descTipo = "("+String.valueOf(targetObjeto.getTipo())+")";
                 TipoObjeto checkTipo = TipoObjetoService.get(targetObjeto.getTipo());
-                if(checkTipo != null){ descTipo = descTipo+" - "+checkTipo.getDescricao(); }
+                if(checkTipo != null){ descTipo = descTipo+" "+checkTipo.getDescricao(); }
                 
                 String infoText = "=============================[ Object Manager | Objetos ]=============================\n"+
                 "[ Consultar ]"+
@@ -142,9 +143,9 @@ public class MenuObjetos {
             String estado = "Ativo";
             if (!targetObjeto.isAtivo()){ estado = "Baixado"; }
             
-            String descTipo = "#"+String.valueOf(targetObjeto.getTipo());
+            String descTipo = "("+String.valueOf(targetObjeto.getTipo()+")");
             TipoObjeto checkTipo = TipoObjetoService.get(targetObjeto.getTipo());
-            if(checkTipo != null){ descTipo = descTipo+" - "+checkTipo.getDescricao(); }
+            if(checkTipo != null){ descTipo = descTipo+" "+checkTipo.getDescricao(); }
             
             String alterText = "=============================[ Object Manager | Objetos ]=============================\n"+
             "[ Alterações ]"+
@@ -287,9 +288,9 @@ public class MenuObjetos {
             String estado = "Ativo";
             if (!targetObjeto.isAtivo()){ estado = "Baixado"; }
            
-            String descTipo = "#"+String.valueOf(targetObjeto.getTipo());
+            String descTipo = "("+String.valueOf(targetObjeto.getTipo())+")";
             TipoObjeto checkTipo = TipoObjetoService.get(targetObjeto.getTipo());
-            if(checkTipo != null){ descTipo = descTipo+" - "+checkTipo.getDescricao(); }
+            if(checkTipo != null){ descTipo = descTipo+" "+checkTipo.getDescricao(); }
             
             String deleteText = "=============================[ Object Manager | Objetos ]=============================\n"+
             "[ Excluir ]"+
@@ -321,12 +322,13 @@ public class MenuObjetos {
         ArrayList<Objeto> objetos = ObjetoService.getAll();
 
         for (Objeto objeto : objetos) {
+            
             String estado = "Ativo";
             if (!objeto.isAtivo()){ estado = "Baixado"; }
             
-            String descTipo = "#"+String.valueOf(objeto.getTipo());
+            String descTipo = "("+String.valueOf(objeto.getTipo())+")";
             TipoObjeto checkTipo = TipoObjetoService.get(objeto.getTipo());
-            if(checkTipo != null){ descTipo = checkTipo.getDescricao(); }
+            if(checkTipo != null){ descTipo += " "+checkTipo.getDescricao(); }
             
             listaTipos += ( "#"+objeto.getId()+" | "+objeto.getNome()+" | "+objeto.getDescricao()+" | "+descTipo+" | "+estado+"\r\n" );
         }

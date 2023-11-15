@@ -48,6 +48,8 @@ public class Database {
         try {
             Statement statement = connection.createStatement();
 
+            statement.execute("PRAGMA foreign_keys = ON;"); // HABILITAR CHAVES ESTRANGEIRAS NO SQLITE
+            
             statement.execute("""
                 CREATE TABLE IF NOT EXISTS pessoas (
                     id INTEGER,
@@ -75,7 +77,7 @@ public class Database {
                     tipo_id INTEGER,
                     ativo INTEGER,
                     PRIMARY KEY (id),
-                    CONSTRAINT fk_objetos_tipos_objeto FOREIGN KEY (tipo_id) REFERENCES tipos_objeto(id) ON UPDATE CASCADE ON DELETE CASCADE
+                    CONSTRAINT fk_objetos_tipos_objeto FOREIGN KEY (tipo_id) REFERENCES tipos_objeto(id)
                 );                                  
             """);
             

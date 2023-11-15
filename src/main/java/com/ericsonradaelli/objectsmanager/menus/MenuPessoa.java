@@ -68,7 +68,7 @@ public class MenuPessoa {
         boolean confirm = Entrada.leiaBoolean(confirmText,"Confirmar","Cancelar");
         if(confirm){
            
-            int statusCode = PessoaService.cadastro(pDoc, pNome,  pTelefone);
+            int statusCode = PessoaService.cadastro(pDoc, pNome, pTelefone);
             String message = "Erro não especificado.";
             
             switch(statusCode){
@@ -212,7 +212,7 @@ public class MenuPessoa {
             "\n- Nome: "+targetPessoa.getNome()+
             "\n- Telefone: "+targetPessoa.getTelefone()+
             "\n============================="+
-            "\n> Tem certeza em excluir o Usuário #"+pessoaId+" ?";
+            "\n> Tem certeza em excluir o Usuário #"+pessoaId+" ?\n> TODOS os dados relacionados (empréstimos) serão apagados!";
             
             boolean confirm = Entrada.leiaBoolean(deleteText,"Confirmar","Cancelar");
             if(confirm){

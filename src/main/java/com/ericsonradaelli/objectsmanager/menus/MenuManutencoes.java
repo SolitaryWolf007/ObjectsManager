@@ -69,19 +69,19 @@ public class MenuManutencoes {
         Objeto objeto = ObjetoService.get(mObjeto);
         while (objeto == null){
             if(mObjeto == 0) return;
-            mObjeto = Entrada.leiaInt("===========================[ Object Manager | Manutenções ]===========================\nCadastro (2/3)\n> Objeto informado é inválido!!\n> Indique o ID do Objeto\n\n0) Cancelar\n===[ OBJETOS DISPONÍVEIS ]===\n"+listaObjetos);
+            mObjeto = Entrada.leiaInt("===========================[ Object Manager | Manutenções ]===========================\nCadastro (1/3)\n> Objeto informado é inválido!!\n> Indique o ID do Objeto\n\n0) Cancelar\n===[ OBJETOS DISPONÍVEIS ]===\n"+listaObjetos);
             objeto = ObjetoService.get(mObjeto);
         }
                     
         // LER DESCRICAO       
-        String mDescricao = Entrada.leiaString("===========================[ Object Manager | Manutenções ]===========================\nCadastro (2/4)\n> Indique a Descrição da Ocorrência\n");
+        String mDescricao = Entrada.leiaString("===========================[ Object Manager | Manutenções ]===========================\nCadastro (2/3)\n> Indique a Descrição da Ocorrência\n");
         mDescricao = mDescricao.toUpperCase(); //RS001
 
         // CONFIRMAR       
         String confirmText = "===========================[ Object Manager | Manutenções ]===========================\n"+
         "Cadastro (3/3)"+
         "\n> Confirme os Dados:"+
-        "\n- Objeto: "+mObjeto+" ("+objeto.getNome()+")"+
+        "\n- Objeto: #"+mObjeto+" ("+objeto.getNome()+")"+
         "\n- Descrição: "+mDescricao;
 
         boolean confirm = Entrada.leiaBoolean(confirmText,"Confirmar","Cancelar");
@@ -203,7 +203,7 @@ public class MenuManutencoes {
                         
                     case 2:
                         String alterEstado = "===========================[ Object Manager | Manutenções ]===========================\n"+
-                        "[ Buscar ]"+
+                        "[ Alterações ]"+
                         "\n> Indique o Estado Manutenção"+
                         "\n0) Concluído (Atualiza Data de Saída)"+
                         "\n1) Em Serviço"+
@@ -259,7 +259,7 @@ public class MenuManutencoes {
             Objeto checkObjeto = ObjetoService.get(targetManut.getObjeto());
             if(checkObjeto != null){ nomeObj = nomeObj+" "+checkObjeto.getNome(); }
             
-            String deleteText = "=============================[ Object Manager | Pessoas ]=============================\n"+
+            String deleteText = "===========================[ Object Manager | Manutenções ]===========================\n"+
             "[ Excluir ]"+
             "\n> Dados da Manutenção:"+
             "\n- ID: #"+manutId+
@@ -269,7 +269,7 @@ public class MenuManutencoes {
             "\n- Data Entrada: "+targetManut.getDataEntrada()+
             "\n- Data Saida: "+targetManut.getDataSaida()+
             "\n============================="+
-            "\n> Tem certeza em excluir o Tipo #"+manutId+" ?";
+            "\n> Tem certeza em excluir a Manutenção #"+manutId+" ?";
             
             boolean confirm = Entrada.leiaBoolean(deleteText,"Confirmar","Cancelar");
             if(confirm){

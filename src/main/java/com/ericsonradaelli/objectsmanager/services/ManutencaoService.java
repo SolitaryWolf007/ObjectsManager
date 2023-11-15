@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
-import com.ericsonradaelli.objectsmanager.helpers.Database;
-import com.ericsonradaelli.objectsmanager.entities.Manutencao;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import com.ericsonradaelli.objectsmanager.helpers.Database;
+import com.ericsonradaelli.objectsmanager.entities.Manutencao;
 
 
 /**
@@ -25,20 +25,17 @@ public class ManutencaoService {
         int statusCode = 0;
         
         if(!mDescricao.isBlank()){
-            //if( EmprestimoService.checkAvaliable(mObjeto) ){
-                try {
-                    Statement statement = db.getStatement();
+            try {
+                Statement statement = db.getStatement();
 
-                    statement.execute("INSERT INTO manutencoes(id_objeto,descricao,status,data_entrada) VALUES('"+mObjeto+"','"+mDescricao+"',2,DATETIME('now','localtime'));");
-                    statement.close();
+                statement.execute("INSERT INTO manutencoes(id_objeto,descricao,status,data_entrada) VALUES('"+mObjeto+"','"+mDescricao+"',2,DATETIME('now','localtime'));");
+                statement.close();
 
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    statusCode = 3;
-                }
-            //}else{
-            //    statusCode = 2;
-            //}
+            } catch (SQLException e) {
+                e.printStackTrace();
+                statusCode = 3;
+            }
+            
         }else{
             statusCode = 1;
         }
