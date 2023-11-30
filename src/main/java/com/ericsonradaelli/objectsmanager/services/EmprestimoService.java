@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import com.ericsonradaelli.objectsmanager.helpers.Database;
 import com.ericsonradaelli.objectsmanager.entities.Emprestimo;
+import java.sql.PreparedStatement;
 /**
  *
  * @author erics
@@ -108,6 +109,43 @@ public class EmprestimoService {
         }
         
         return emp;
+    }
+    
+    public static ArrayList<Emprestimo> getByDate(String strData) {      
+        ArrayList<Emprestimo> emprestimos = new ArrayList<>();
+        try {
+            
+            PreparedStatement statement = db.prepareStatement("SELECT * FROM emprestimos WHERE STRFTIME('%d/%m/%Y',data_retirada) = ? OR STRFTIME('%d/%m/%Y',data_devolvido) = ?;"); 
+            statement.setString(1, strData);
+            statement.setString(2, strData);   
+            ResultSet results = statement.executeQuery();       
+            
+            while (results.next()) {
+                Timestamp dr = results.getTimestamp("data_retirada");
+                Timestamp dd = results.getTimestamp("data_devolvido");
+                LocalDateTime tr = null;
+                LocalDateTime td = null;
+                if(dr != null){ tr = dr.toLocalDateTime(); }
+                if(dd != null){ td = dd.toLocalDateTime(); }
+
+                Emprestimo emp = new Emprestimo(
+                    results.getInt("id"),
+                    results.getInt("id_objeto"),
+                    results.getInt("id_pessoa"),
+                    results.getBoolean("ativo"),
+                    tr,
+                    td
+                );    
+                emprestimos.add(emp);           
+            }
+
+            results.close();
+            statement.close();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return emprestimos;
     }
     
     public static boolean isAvaliable(int mObjeto) {

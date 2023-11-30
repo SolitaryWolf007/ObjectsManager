@@ -28,6 +28,7 @@ public class MenuEmprestimos {
                 "3) Alterar Empréstimo\n"+
                 "4) Excluir Empréstimo\n"+
                 "5) Listar Empréstimos\n"+
+                "6) Listar Empréstimos por DATA\n"+
                 "\n0) Menu Principal";
 
             int option = Entrada.leiaInt(menuText);
@@ -50,6 +51,9 @@ public class MenuEmprestimos {
                     break;
                 case 5:
                     ListarEmprestimos();
+                    break;
+                case 6:
+                    MenuListagem.EmprestimosPorData();
                     break;
             }
             

@@ -6,6 +6,8 @@ import java.sql.Statement;
 import java.sql.SQLException;
 import com.ericsonradaelli.objectsmanager.helpers.Database;
 import com.ericsonradaelli.objectsmanager.entities.Objeto;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 /**
@@ -95,6 +97,22 @@ public class ObjetoService {
         }
         
         return objeto;
+    }
+    
+    public static ArrayList<Objeto> getObjectsWithFilter(int typeId){
+        ArrayList<Objeto> filter = new ArrayList<>();           
+        ArrayList<Objeto> objetos = ObjetoService.getAll();  
+        Collections.sort(objetos, Comparator.comparing(Objeto::getNome));
+        for (Objeto objeto : objetos) {
+            if(typeId > 0){
+                if(objeto.getTipo() == typeId){
+                    filter.add(objeto);
+                }
+            }else{
+                filter.add(objeto);
+            }
+        }
+        return filter;
     }
     
     // UPDATE OBJETO ===========================================================

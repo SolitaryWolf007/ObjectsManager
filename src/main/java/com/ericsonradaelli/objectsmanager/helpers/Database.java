@@ -2,6 +2,7 @@ package com.ericsonradaelli.objectsmanager.helpers;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -27,6 +28,16 @@ public class Database {
     public Statement getStatement() {
         try {
             Statement statement = connection.createStatement();
+            return statement;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public PreparedStatement prepareStatement(String sql) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
             return statement;
         } catch (SQLException e) {
             e.printStackTrace();

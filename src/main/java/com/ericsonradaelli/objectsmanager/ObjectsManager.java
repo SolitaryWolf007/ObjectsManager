@@ -11,7 +11,11 @@ import com.ericsonradaelli.objectsmanager.menus.MenuTipoObjeto;
 
 /**
  *
- * @author Ericson Arthur Radaelli
+ * @author ERICSON ARTHUR RADAELLI
+ * @entrega 30/11/2023 ( Atividade 3 )
+ * @modulo PROJETO INTEGRADOR: PROGRAMAÇÃO DE COMPUTADORES - REF 395849
+ * @professor EVANDRO FRANZEN
+ * @tutor JEAN CARLO SOUZA KRAHL
  */
 public class ObjectsManager {
 
@@ -36,7 +40,6 @@ public class ObjectsManager {
             "3) Cadastro Tipo de Objetos\n"+
             "4) Cadastro Empréstimos\n"+
             "5) Cadastro Manutenções\n"+
-            "6) Listagem Avançada de Objetos\n"+
             "\n0) Fechar Programa";
 
             int option = Entrada.leiaInt(menuText);
@@ -64,9 +67,6 @@ public class ObjectsManager {
                 case 5:
                     // Ok
                     MenuManutencoes.show();
-                    break;
-                case 6:
-                    MenuListagem.show();
                     break;
             }
         }

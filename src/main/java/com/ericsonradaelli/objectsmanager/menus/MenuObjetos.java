@@ -26,6 +26,7 @@ public class MenuObjetos {
                 "3) Alterar Objeto\n"+
                 "4) Excluir Objeto\n"+
                 "5) Listar Objetos\n"+
+                "6) Listar Objetos por SITUAÇÃO\n"+
                 "\n0) Menu Principal";
 
             int option = Entrada.leiaInt(menuText);
@@ -48,6 +49,9 @@ public class MenuObjetos {
                     break;
                 case 5:
                     ListarObjetos();
+                    break;
+                case 6:
+                    MenuListagem.ObjetosPorSituacao();
                     break;
             }
             
